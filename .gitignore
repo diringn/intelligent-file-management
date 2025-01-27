@@ -1,0 +1,27 @@
+# Maven build
+/target/
+/*.log
+
+# IntelliJ IDEA
+/.idea
+/*.iml
+
+# Eclipse
+/.settings/
+/.project
+/.classpath
+
+# VSCode
+/.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Maven Wrapper files (если не используете):
+#mvnw
+#mvnw.cmd
+#/.mvn
+
+# Конфиденциальные файлы
+.env
