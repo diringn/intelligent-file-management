@@ -1,4 +1,3 @@
-// src/main/java/com/example/filemanagement/controller/LogController.java
 package com.example.intelligent_file_management.controller;
 
 import com.example.intelligent_file_management.model.FileLog;

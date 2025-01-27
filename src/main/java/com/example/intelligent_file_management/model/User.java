@@ -1,4 +1,3 @@
-// src/main/java/com/example/filemanagement/model/User.java
 package com.example.intelligent_file_management.model;
 
 import jakarta.persistence.*;

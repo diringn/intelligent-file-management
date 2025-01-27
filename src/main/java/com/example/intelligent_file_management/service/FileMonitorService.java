@@ -1,4 +1,3 @@
-// src/main/java/com/example/filemanagement/service/FileMonitorService.java
 package com.example.intelligent_file_management.service;
 
 import com.example.intelligent_file_management.model.FileLog;
@@ -28,7 +27,6 @@ public class FileMonitorService {
     private Thread watchThread;
     private final Map<WatchKey, Path> keyPathMap = new HashMap<>();
 
-    // Считываем путь к директории из application.properties
     @Value("${file.monitor.path}")
     private String directoryToWatch;
 
@@ -43,10 +41,8 @@ public class FileMonitorService {
                 return;
             }
 
-            // Рекурсивная регистрация всех поддиректорий
             registerAll(startPath);
 
-            // Запуск отдельного потока для обработки событий
             watchThread = new Thread(this::processEvents);
             watchThread.start();
 
@@ -94,7 +90,6 @@ public class FileMonitorService {
         while (true) {
             WatchKey key;
             try {
-                // Ожидание события
                 key = watchService.take();
             } catch (InterruptedException e) {
                 log.info("Поток FileMonitorService прерван.");
@@ -114,17 +109,15 @@ public class FileMonitorService {
                 WatchEvent.Kind<?> kind = event.kind();
 
                 if (kind == StandardWatchEventKinds.OVERFLOW) {
-                    continue; // Переполнение пропускаем
+                    continue;
                 }
 
-                // Получаем имя изменённого файла/директории
                 WatchEvent<Path> ev = (WatchEvent<Path>) event;
                 Path fileName = ev.context();
                 Path child = dir.resolve(fileName);
 
                 log.info("Событие {} для файла {}", kind.name(), child);
 
-                // Сохраняем лог в базе
                 FileLog fileLog = FileLog.builder()
                         .filename(child.toString())
                         .action(kind.name())
@@ -134,7 +127,6 @@ public class FileMonitorService {
 
                 fileLogRepository.save(fileLog);
 
-                // Если создана новая директория - регистрируем её тоже
                 if (kind == StandardWatchEventKinds.ENTRY_CREATE) {
                     try {
                         if (Files.isDirectory(child, LinkOption.NOFOLLOW_LINKS)) {

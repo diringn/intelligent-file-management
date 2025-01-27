@@ -1,4 +1,3 @@
-// src/test/java/com/example/filemanagement/HealthControllerTest.java
 package com.example.intelligent_file_management;
 
 import org.junit.jupiter.api.Test;

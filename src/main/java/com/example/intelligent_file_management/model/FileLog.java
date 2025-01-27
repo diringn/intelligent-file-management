@@ -1,4 +1,3 @@
-// src/main/java/com/example/filemanagement/model/FileLog.java
 package com.example.intelligent_file_management.model;
 
 import jakarta.persistence.*;
@@ -19,7 +18,7 @@ public class FileLog {
     private Long id;
 
     private String filename;
-    private String action;       // CREATED, MODIFIED, DELETED и т.д.
+    private String action;
     private LocalDateTime timestamp;
-    private String details;      // Дополнительная информация
+    private String details;
 }

@@ -1,4 +1,3 @@
-// src/main/java/com/example/filemanagement/repository/FileLogRepository.java
 package com.example.intelligent_file_management.repository;
 
 import com.example.intelligent_file_management.model.FileLog;

@@ -1,4 +1,3 @@
-// src/main/java/com/example/filemanagement/controller/HealthController.java
 package com.example.intelligent_file_management.controller;
 
 import org.springframework.http.ResponseEntity;
