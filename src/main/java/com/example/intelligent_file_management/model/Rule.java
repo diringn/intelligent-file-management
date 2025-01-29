@@ -16,5 +16,15 @@ public class Rule {
     private Long id;
 
     private String name;
+
     private String description;
+
+    private String fileExtension;
+
+    @Enumerated(EnumType.STRING)
+    private FileOperationType operationType;
+
+    private String targetDirectory;
+
+    private String renamePattern;
 }

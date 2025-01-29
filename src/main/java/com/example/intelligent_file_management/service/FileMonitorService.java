@@ -22,6 +22,7 @@ import java.util.Map;
 public class FileMonitorService {
 
     private final FileLogRepository fileLogRepository;
+    private final FileAutomationService fileAutomationService;
 
     private WatchService watchService;
     private Thread watchThread;
@@ -92,7 +93,7 @@ public class FileMonitorService {
             try {
                 key = watchService.take();
             } catch (InterruptedException e) {
-                log.info("Поток FileMonitorService прерван.");
+                log.info("Поток мониторинга прерван.");
                 return;
             } catch (ClosedWatchServiceException e) {
                 log.info("WatchService закрыт.");
@@ -113,8 +114,8 @@ public class FileMonitorService {
                 }
 
                 WatchEvent<Path> ev = (WatchEvent<Path>) event;
-                Path fileName = ev.context();
-                Path child = dir.resolve(fileName);
+                Path name = ev.context();
+                Path child = dir.resolve(name);
 
                 log.info("Событие {} для файла {}", kind.name(), child);
 
@@ -122,19 +123,22 @@ public class FileMonitorService {
                         .filename(child.toString())
                         .action(kind.name())
                         .timestamp(LocalDateTime.now())
-                        .details("Событие " + kind.name() + " для файла: " + child.toString())
+                        .details("Событие " + kind.name() + " для файла: " + child)
                         .build();
-
                 fileLogRepository.save(fileLog);
 
                 if (kind == StandardWatchEventKinds.ENTRY_CREATE) {
                     try {
                         if (Files.isDirectory(child, LinkOption.NOFOLLOW_LINKS)) {
                             registerAll(child);
+                        } else {
+                            fileAutomationService.applyAutomation(child.toString());
                         }
                     } catch (IOException e) {
                         log.error("Ошибка при регистрации новой директории: {}", child, e);
                     }
+                } else if (kind == StandardWatchEventKinds.ENTRY_MODIFY) {
+                    fileAutomationService.applyAutomation(child.toString());
                 }
             }
 
